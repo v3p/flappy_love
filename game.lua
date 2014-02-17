@@ -1,4 +1,5 @@
 local i = love.graphics.newImage("data/img/bg.png")
+vignette = love.graphics.newImage("data/img/vig.png")
 
 local c_images = {}
 for i=1, 3 do
@@ -57,9 +58,9 @@ function game:update(dt)
 	end
 
 	for i,v in ipairs(self.bg.s) do
-		v.x = v.x - (self.speed / 8) * dt
+		v.x = v.x - (self.speed / 6) * dt
 		if v.x < -self.bg.img:getWidth() then
-			v.x = self.bg.img:getWidth()
+			v.x = self.bg.img:getWidth() - 10
 		end
 	end
 
@@ -78,7 +79,7 @@ function game:update(dt)
 	end
 	
 	for i,v in ipairs(self.cloud) do
-		v.x = v.x - (self.speed + v.speed) / 5 * dt
+		v.x = v.x - (self.speed + v.speed) / 4 * dt
 		if v.x < -v.img:getWidth() then
 			table.remove(self.cloud, i)
 		end
@@ -100,7 +101,9 @@ function game:update(dt)
 	end
 	
 	--game
-	self.score = self.score + dt
+	if self.started and not self.lost then
+		self.score = self.score + dt
+	end
 
 end
 
@@ -124,6 +127,10 @@ function game:draw()
 	love.graphics.setColor(255, 255, 255, 255)
 	love.graphics.draw(self.canvas)
 	love.graphics.setShader()
+	
+	love.graphics.setColor(255, 255, 255, 126)
+	love.graphics.draw(vignette, 0, 0, 0, screen.width / vignette:getWidth(), screen.height / vignette:getHeight())
+	
 	if self.lost then
 		love.graphics.setColor(180, 0, 0, 255)
 		love.graphics.setFont(self.font[1])
@@ -132,7 +139,7 @@ function game:draw()
 		love.graphics.setFont(self.font[2])
 		love.graphics.print("Score: "..math.floor(self.score), (screen.width / 2) - (love.graphics.getFont():getWidth("Score: "..math.floor(self.score)) / 2), (screen.height / 2) - (love.graphics.getFont():getHeight() / 2) + 64)
 	else
-		love.graphics.setColor(0, 0, 0, 255)
+		love.graphics.setColor(146, 201, 87, 255)
 		love.graphics.setFont(self.font[2])
 		love.graphics.print("Score: "..math.floor(self.score), 16, 16)
 	end
