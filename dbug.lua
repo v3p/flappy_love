@@ -5,7 +5,7 @@ love.filesystem.setIdentity(love.window.getTitle())
 local config = {
 		fps = {show = true, x = 12, y = screen.height - 24, color = {255, 255, 255, 255}},
 		font = love.graphics.newFont(12),
-		log = {enabled = true}
+		log = {enabled = false}
 	}
 local _log_file = "dbug_log.txt"
 local log_file = love.filesystem.newFile(_log_file)
@@ -28,8 +28,8 @@ local color = {
 	}
 	
 function dbug.init()
-	if not love.filesystem.exists(_log_file) then dbug.writeToLog("Log file created.", "dbug") end
-	dbug.writeToLog("Game Initialized.", "dbug")
+	--if not love.filesystem.exists(_log_file) then dbug.writeToLog("Log file created.", "dbug") end
+	--dbug.writeToLog("Game Initialized.", "dbug")
 end
 
 function dbug.print(text, _color, duration)

@@ -1,7 +1,9 @@
+local wall_width = screen.width / 10
+
 wall = {
 		d = {},
 		space = 200,
-		width = 96,
+		width = wall_width,
 		tick = 0,
 		spawn_rate = 1.5,
 		extra = 30

@@ -1,6 +1,7 @@
+local player_size = screen.width / 32
 player = {
-		width = 32,
-		height = 32,
+		width = player_size,
+		height = player_size,
 		yVel = 0,
 		jumpVel = 500,
 		maxVel = 1000

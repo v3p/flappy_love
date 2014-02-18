@@ -3,5 +3,5 @@ function love.conf(t)
 	t.window.height = 720
 	t.window.fsaa = 4
 	t.window.vsync = true
-	t.window.title = "Untitled Game"
+	t.window.title = "Flappy löve"
 end

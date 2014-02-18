@@ -8,7 +8,7 @@ end
 game = {
 	gravity = 1000,
 	speed = 400,
-	font = {love.graphics.newFont(64), love.graphics.newFont(32)},
+	font = {love.graphics.newFont(64), love.graphics.newFont(32), love.graphics.newFont(18)},
 	bg = {
 			img = i,
 			s = {
@@ -24,6 +24,7 @@ game = {
 	lost = false,
 	canvas = love.graphics.newCanvas(screen.width, screen.height),
 	score = 0,
+	high_score = 0,
 	dead_wait = 1,
 	dead_tick = 0,
 	dead_skip = false
@@ -32,6 +33,9 @@ game = {
 function game:initialize()
 	love.graphics.setBackgroundColor(hsl(140, 150, 126))
 	player:initialize((screen.width / 4) * 1, (screen.height / 2) - (player.width / 2))
+	if love.filesystem.exists("save.txt") then
+		self.high_score = tonumber(save_file[1])
+	end
 end
 
 function game:reset()
@@ -39,6 +43,12 @@ function game:reset()
 	self.started = false
 	self.lost = false
 	wall:clear()
+	if self.score > self.high_score then
+		self.high_score = self.score
+		save:open("w")
+		save:write("high_score="..math.floor(self.score))
+		save:close()
+	end
 	self.score = 0
 	self.dead_skip = false
 end
@@ -142,23 +152,29 @@ function game:draw()
 		love.graphics.setColor(146, 201, 87, 255)
 		love.graphics.setFont(self.font[2])
 		love.graphics.print("Score: "..math.floor(self.score), 16, 16)
+		love.graphics.setFont(self.font[3])
+		love.graphics.print("High score: "..math.floor(self.high_score), 16, 54)
 	end
 end
 
 function game:keypressed(key)
-	if not self.starter then self.started = true end
-	if self.lost and self.dead_skip then
-		game:reset()
-	end
 	if key == "w" or key == "up" or key == " " then
-		if not self.lost then
-			player:jump()
+		if not self.started then
+			self.started = true
+		elseif self.lost and self.dead_skip then
+			game:reset()
 		end
+		player:jump()
 	end
 end
 
 function game:mousepressed(x, y, key)
 	if key == "l" then
-		
+		if not self.started then
+			self.started = true
+		elseif self.lost and self.dead_skip then
+			game:reset()
+		end
+		player:jump()
 	end
 end

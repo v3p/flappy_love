@@ -10,6 +10,17 @@ require "wall"
 require "game"
 require "menu"	
 
+--File stuff
+save_file = {}
+save = love.filesystem.newFile("save.txt")
+if love.filesystem.exists("save.txt") then
+	for line in save:lines() do
+		local s = line:find("=")
+		line = line:sub(s + 1)
+		save_file[#save_file + 1] = line
+	end
+end
+
 	
 local state = {
 		game = "game",
