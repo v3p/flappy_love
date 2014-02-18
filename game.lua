@@ -146,11 +146,11 @@ function game:draw()
 end
 
 function game:keypressed(key)
-	if not self.starter then self.started = true end
 	if self.lost and self.dead_skip then
 		game:reset()
 	end
 	if key == "w" or key == "up" or key == " " then
+		if not self.starter then self.started = true end
 		if not self.lost then
 			player:jump()
 		end
