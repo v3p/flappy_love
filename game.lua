@@ -6,8 +6,8 @@ for i=1, 3 do
 	c_images[#c_images + 1] = love.graphics.newImage("data/img/cloud/"..i..".png")
 end
 game = {
-	gravity = 1000,
-	speed = 400,
+	gravity = screen.height * 1.5,
+	speed = (screen.width / 3) * 1,
 	font = {love.graphics.newFont(64), love.graphics.newFont(32), love.graphics.newFont(18)},
 	bg = {
 			img = i,
@@ -106,6 +106,9 @@ function game:update(dt)
 			end
 			if col then
 				game.lost = true
+				if game.score > game.high_score then
+					dbug.print("New high score!", {180, 0, 0})
+				end
 			end
 		end
 	end
@@ -156,25 +159,38 @@ function game:draw()
 		love.graphics.print("High score: "..math.floor(self.high_score), 16, 54)
 	end
 end
-
-function game:keypressed(key)
-	if key == "w" or key == "up" or key == " " then
+	--[[
 		if not self.started then
 			self.started = true
 		elseif self.lost and self.dead_skip then
 			game:reset()
 		end
-		player:jump()
+		player:jump()]]
+function game:keypressed(key)
+	if key == "w" or key == "up" or key == " " then
+		if not self.started then self.started = true end
+		if self.started and not self.lost then
+			player:jump()
+		elseif self.lost  then
+			if self.dead_skip then
+				game:reset()
+			end
+		end
+	elseif key == "r" then
+		game:reset()
 	end
+	
 end
 
 function game:mousepressed(x, y, key)
 	if key == "l" then
-		if not self.started then
-			self.started = true
-		elseif self.lost and self.dead_skip then
-			game:reset()
+		if not self.started then self.started = true end
+		if self.started and not self.lost then
+			player:jump()
+		elseif self.lost  then
+			if self.dead_skip then
+				game:reset()
+			end
 		end
-		player:jump()
 	end
 end

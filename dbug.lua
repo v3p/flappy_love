@@ -3,8 +3,8 @@ dbug = {}
 love.filesystem.setIdentity(love.window.getTitle())
 
 local config = {
-		fps = {show = true, x = 12, y = screen.height - 24, color = {255, 255, 255, 255}},
-		font = love.graphics.newFont(12),
+		fps = {show = false, x = 12, y = screen.height - 24, color = {255, 255, 255, 255}},
+		font = love.graphics.newFont(32),
 		log = {enabled = false}
 	}
 local _log_file = "dbug_log.txt"
@@ -14,8 +14,8 @@ local log_file = love.filesystem.newFile(_log_file)
 
 local console = {
 		show = true,
-		x = 12,
-		y = love.graphics.getHeight() - 24,
+		x = config.font:getHeight() / 8,
+		y = love.graphics.getHeight() - config.font:getHeight(),
 		line_height = 24,
 		lines = {},
 		max_lines = 12,

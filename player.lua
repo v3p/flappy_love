@@ -3,7 +3,7 @@ player = {
 		width = player_size,
 		height = player_size,
 		yVel = 0,
-		jumpVel = 500,
+		jumpVel = (screen.height / 4) * 3,
 		maxVel = 1000
 	}
 
@@ -20,15 +20,17 @@ function player:update(dt)
 	
 	self.y = self.y + self.yVel * dt
 	
-	if self.y < 0 or (self.y + self.height) > screen.height then
-		game.lost = true
+	if self.y < -self.height then
+		self.y = screen.height
+	elseif self.y > screen.height then
+		self.y = -self.height
 	end
 end
 
 function player:draw()
 	love.graphics.setColor(255, 255, 255, 255)
 	--love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
-	round_rectangle(self.x, self.y, self.width, self.height, 6)
+	round_rectangle(self.x, self.y, self.width, self.height, screen.width / 120)
 end
 
 function player:jump()

@@ -54,7 +54,9 @@ end
 
 function love.keypressed(key)
 	if key == "escape" then love.event.push("quit") end
-	
+	if key == "g" then
+		dbug.print("New high score!", {146, 201, 87})
+	end
 	if game_state == state.game then
 		game:keypressed(key)
 	elseif game_state == state.menu then

@@ -1,8 +1,9 @@
 local wall_width = screen.width / 10
 
+
 wall = {
 		d = {},
-		space = 200,
+		space = screen.height / 4,
 		width = wall_width,
 		tick = 0,
 		spawn_rate = 1.5,
@@ -48,7 +49,7 @@ function wall:draw()
 		for _,s in ipairs(v) do
 			love.graphics.setColor(146, 201, 87, 255)
 			--love.graphics.rectangle("fill", s.x, s.y, s.width, s.height)
-			round_rectangle(s.x, s.y, s.width, s.height, 12)
+			round_rectangle(s.x, s.y, s.width, s.height, screen.width / 100)
 		end
 	end
 end
