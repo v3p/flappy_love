@@ -4,6 +4,7 @@ screen = {
 	}
 
 --Loading Files
+tween = require("tween")
 require "dbug"
 require "player"
 require "wall"
@@ -41,6 +42,7 @@ function love.update(dt)
 		menu:update(dt)
 	end
 	dbug.update(dt)
+	tween.update(dt)
 end
 
 function love.draw()
@@ -119,9 +121,7 @@ end
 
 function round_rectangle(x, y, width, height, radius)
 	--RECTANGLES
-	love.graphics.rectangle("fill", x + radius, y + radius, width - (radius * 2), height - radius * 2)
-	love.graphics.rectangle("fill", x + radius, y, width - (radius * 2), radius)
-	love.graphics.rectangle("fill", x + radius, y + height - radius, width - (radius * 2), radius)
+	love.graphics.rectangle("fill", x + radius, y, width - (radius * 2), height)
 	love.graphics.rectangle("fill", x, y + radius, radius, height - (radius * 2))
 	love.graphics.rectangle("fill", x + (width - radius), y + radius, radius, height - (radius * 2))
 	

@@ -27,7 +27,13 @@ game = {
 	high_score = 0,
 	dead_wait = 1,
 	dead_tick = 0,
-	dead_skip = false
+	dead_skip = false,
+	flash = {
+			color = {255, 255, 255},
+			alpha = 0,
+			speed = 0.05,
+			easing = "inOutQuad"
+		}
 }
 
 function game:initialize()
@@ -39,6 +45,7 @@ function game:initialize()
 end
 
 function game:reset()
+	tween.start(self.flash.speed, self.flash, {alpha = 255}, self.flash.easing)
 	player:initialize((screen.width / 4) * 1, (screen.height / 2) - (player.width / 2))
 	self.started = false
 	self.lost = false
@@ -106,6 +113,7 @@ function game:update(dt)
 			end
 			if col then
 				game.lost = true
+				tween.start(self.flash.speed, self.flash, {alpha = 255}, self.flash.easing)
 				if game.score > game.high_score then
 					dbug.print("New high score!", {180, 0, 0})
 				end
@@ -117,7 +125,11 @@ function game:update(dt)
 	if self.started and not self.lost then
 		self.score = self.score + dt
 	end
-
+	
+	--Flash
+	if self.flash.alpha >= 255 then
+		tween.start(self.flash.speed, self.flash, {alpha = 0}, self.flash.easing)
+	end
 end
 
 function game:draw()
@@ -141,6 +153,9 @@ function game:draw()
 	love.graphics.draw(self.canvas)
 	love.graphics.setShader()
 	
+	love.graphics.setColor(self.flash.color[1], self.flash.color[2], self.flash.color[3], self.flash.alpha)
+	love.graphics.rectangle("fill", 0, 0, screen.width, screen.height)
+	
 	love.graphics.setColor(255, 255, 255, 126)
 	love.graphics.draw(vignette, 0, 0, 0, screen.width / vignette:getWidth(), screen.height / vignette:getHeight())
 	
@@ -159,13 +174,7 @@ function game:draw()
 		love.graphics.print("High score: "..math.floor(self.high_score), 16, 54)
 	end
 end
-	--[[
-		if not self.started then
-			self.started = true
-		elseif self.lost and self.dead_skip then
-			game:reset()
-		end
-		player:jump()]]
+
 function game:keypressed(key)
 	if key == "w" or key == "up" or key == " " then
 		if not self.started then self.started = true end

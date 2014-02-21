@@ -3,8 +3,8 @@ dbug = {}
 love.filesystem.setIdentity(love.window.getTitle())
 
 local config = {
-		fps = {show = false, x = 12, y = screen.height - 24, color = {255, 255, 255, 255}},
-		font = love.graphics.newFont(32),
+		fps = {show = true, x = 12, y = screen.height - 24, color = {255, 255, 255, 255}},
+		font = love.graphics.newFont(16),
 		log = {enabled = false}
 	}
 local _log_file = "dbug_log.txt"
