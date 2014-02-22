@@ -20,10 +20,14 @@ function player:update(dt)
 	
 	self.y = self.y + self.yVel * dt
 	
-	if self.y < -self.height then
-		self.y = screen.height
-	elseif self.y > screen.height then
-		self.y = -self.height
+	if self.y > screen.height - self.height then
+		self.y = screen.height - self.height
+		self.yVel = -(self.yVel / 2)
+		game.lost = true
+	elseif self.y < 0 then
+		self.y = 0
+		self.yVel = 0
+		game.lost = true
 	end
 end
 

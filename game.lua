@@ -137,7 +137,7 @@ function game:draw()
 	love.graphics.setCanvas(self.canvas)
 	
 	for i,v in ipairs(self.bg.s) do
-		love.graphics.draw(self.bg.img, v.x, 0)
+		love.graphics.draw(self.bg.img, v.x, 0, 0, 1, screen.height / self.bg.img:getHeight())
 	end
 	for i,v in ipairs(self.cloud) do
 		love.graphics.setColor(255, 255, 255, 180)
